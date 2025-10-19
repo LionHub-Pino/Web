@@ -35,13 +35,13 @@
             padding: 0;
         }
 
-        /* MÀU NỀN CHÍNH (KEM) */
+        /* THAY ĐỔI MÀU NỀN CHÍNH (SANG TRỌNG HƠN) */
         .body-letter {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #FDF5E6;
+            background-color: #FDF5E6; /* Đổi từ hồng #fae1dd sang màu kem #FDF5E6 */
         }
 
         .letter {
@@ -68,16 +68,16 @@
             }
         }
 
-        /* MÀU PHONG BÌ (HỒNG ĐẤT / ĐỎ ĐÔ) */
+        /* THAY ĐỔI MÀU PHONG BÌ */
         .envelope {
             position: relative;
             width: 300px;
             height: 200px;
-            background-color: #B76E79; 
+            background-color: #B76E79; /* Đổi từ #f08080 sang màu hồng đất/đỏ đô #B76E79 */
         }
 
         .envelope:before {
-            background-color: #B76E79; 
+            background-color: #B76E79; /* Giữ đồng bộ màu */
             content: "";
             position: absolute;
             width: 212px;
@@ -88,10 +88,10 @@
             border-radius: 30px 0 0 0;
         }
         
-        /* MÀU THIỆP (KEM/NGÀ) */
+        /* THAY ĐỔI MÀU THIỆP */
         .card {
             position: absolute;
-            background-color: #FFFFF0;
+            background-color: #FFFFF0; /* Đổi từ #eae2b7 sang màu kem/ngà #FFFFF0 */
             width: 270px;
             height: 170px;
             top: 5px;
@@ -99,11 +99,11 @@
             box-shadow: -5px -5px 100px rgba(0, 0, 0, 0.4);
         }
 
-        /* MÀU VIỀN THIỆP (NÂU ĐẬM) */
+        /* THAY ĐỔI MÀU VIỀN THIỆP */
         .card:before {
             content: "";
             position: absolute;
-            border: 3px solid #6D4C41; 
+            border: 3px solid #6D4C41; /* Đổi từ xanh #003049 sang nâu đậm #6D4C41 */
             border-style: dotted;
             width: 240px;
             heighT: 140px;
@@ -111,7 +111,7 @@
             top: 12px;
         }
 
-        /* MÀU CHỮ TRÊN THIỆP (NÂU ĐẬM) */
+        /* THAY ĐỔI MÀU CHỮ TRÊN THIỆP */
         .text {
             position: absolute;
             font-family: 'Brush Script MT', cursive;
@@ -120,12 +120,12 @@
             line-height: 25px;
             top: 19px;
             left: 85px;
-            color: #6D4C41; 
+            color: #6D4C41; /* Đổi từ xanh #003049 sang nâu đậm #6D4C41 */
         }
 
-        /* MÀU TIM TRÊN THIỆP (ĐỎ CỔ ĐIỂN) */
+        /* THAY ĐỔI MÀU TIM */
         .heart {
-            background-color: #C62828; 
+            background-color: #C62828; /* Đổi từ #d62828 sang đỏ cổ điển #C62828 */
             display: inline-block;
             height: 30px;
             margin: 0 10px;
@@ -139,7 +139,7 @@
         .heart:before,
         .heart:after {
             content: "";
-            background-color: #C62828; 
+            background-color: #C62828; /* Đổi từ #d62828 sang đỏ cổ điển #C62828 */
             border-radius: 50%;
             height: 30px;
             position: absolute;
@@ -156,24 +156,104 @@
             top: 0;
         }
 
-        /* PHẦN HIỆU ỨNG TIM BAY LÊN (ĐÃ BỊ GỠ BỎ) */
-        /* .hearts {
+        .hearts {
             position: absolute;
             top: 0
-        } */
-        
-        /* .one,
+        }
+
+        /* THAY ĐỔI MÀU TIM BAY LÊN */
+        .one,
         .two,
         .three,
         .four,
-        .five { ... } */
+        .five {
+            background-color: #C62828; /* Đổi từ red sang đỏ cổ điển #C62828 */
+            display: inline-block;
+            height: 10px;
+            margin: 0 10px;
+            position: relative;
+            transform: rotate(-45deg);
+            width: 10px;
+            top: 50px;
+        }
 
-        /* @keyframes heart { ... } */
+        .one:before,
+        .one:after,
+        .two:before,
+        .two:after,
+        .three:before,
+        .three:after,
+        .four:before,
+        .four:after,
+        .five:before,
+        .five:after {
+            content: "";
+            background-color: #C62828; /* Đổi từ red sang đỏ cổ điển #C62828 */
+            border-radius: 50%;
+            height: 10px;
+            position: absolute;
+            width: 10px;
+        }
 
-        /* MÀU NẮP PHONG BÌ */
+        .one:before,
+        .two:before,
+        .three:before,
+        .four:before,
+        .five:before {
+            top: -5px;
+            left: 0;
+        }
+
+        .one:after,
+        .two:after,
+        .three:after,
+        .four:after,
+        .five:after {
+            left: 5px;
+            top: 0;
+        }
+
+        .one {
+            left: 10px;
+            animation: heart 1s ease-out infinite;
+        }
+
+        .two {
+            left: 30px;
+            animation: heart 2s ease-out infinite;
+        }
+
+        .three {
+            left: 50px;
+            animation: heart 1.5s ease-out infinite;
+        }
+
+        .four {
+            left: 70px;
+            animation: heart 2.3s ease-out infinite;
+        }
+
+        .five {
+            left: 90px;
+            animation: heart 1.7s ease-out infinite;
+        }
+
+        @keyframes heart {
+            0% {
+                transform: translateY(0) rotate(-45deg) scale(0.3);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-150px) rotate(-45deg) scale(1.3);
+                opacity: 0.5;
+            }
+        }
+
+        /* THAY ĐỔI MÀU NẮP PHONG BÌ */
         .front {
             position: absolute;
-            border-right: 180px solid #D19A9A; /* HỒNG ĐẤT NHẠT */
+            border-right: 180px solid #D19A9A; /* Đổi từ #f4978e sang màu hồng đất nhạt #D19A9A */
             border-top: 95px solid transparent;
             border-bottom: 100px solid transparent;
             left: 120px;
@@ -186,7 +266,7 @@
         .front:before {
             position: absolute;
             content: "";
-            border-left: 300px solid #C48787; /* HỒNG ĐẤT ĐẬM HƠN */
+            border-left: 300px solid #C48787; /* Đổi từ #f8ad9d sang màu hồng đất đậm hơn #C48787 */
             border-top: 195px solid transparent;
             left: -120px;
             top: -95px;
@@ -222,13 +302,13 @@
             animation: hover 1.75s ease-in-out infinite;
         }
 
-        /* MÀU NỀN CHÍNH (KEM) */
+        /* THAY ĐỔI MÀU NỀN CHÍNH */
         #castle {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #FDF5E6; 
+            background-color: #FDF5E6; /* Đổi từ #fae1dd sang màu kem #FDF5E6 */
         }
 
         .dustDef {
@@ -253,10 +333,10 @@
             }
         }
 
-        /* MÀU HIỆU ỨNG GLOW (HỒNG BE) */
+        /* THAY ĐỔI MÀU HIỆU ỨNG GLOW */
         @keyframes glow {
             0% {
-                box-shadow: 0 0 25px 0 #D1B4B4; 
+                box-shadow: 0 0 25px 0 #D1B4B4; /* Đổi từ #e8b2ca sang màu hồng be #D1B4B4 */
             }
 
             50% {
@@ -326,9 +406,8 @@
             z-index: 1;
         }
 
-        /* MÀU CHỮ SVG (NÂU ĐẬM) */
         text {
-            fill: #6D4C41; 
+            fill: #6D4C41; /* Đổi màu chữ SVG sang Nâu đậm */
             font-family: consolas;
             font-size: 9px;
         }
@@ -343,6 +422,84 @@
             -moz-osx-font-smoothing: grayscale;
             opacity: .8
         }
+
+        /* style letter */
+        /* .box-content.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1);
+        }
+
+        .box-content {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 100000000000;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(0.01);
+            visibility: hidden;
+            transition: 0.5s;
+        }
+
+        .fa-xmark {
+            position: absolute;
+            right: 5%;
+            top: 5%;
+            font-size: 40px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .fa-xmark:hover {
+            filter: drop-shadow(0 0 10px #fff);
+        }
+
+        .image-decorate {
+            display: flex;
+            width: 700px;
+            z-index: 10;
+            height: 100%;
+        }
+
+        .content1 {
+            position: absolute;
+            width: 700px;
+            height: 500px;
+            background-image: radial-gradient(circle farthest-corner at center, #f9edf3 10%, #ffd3ee 100%);
+            border-radius: 10px 70px 10px 70px;
+            box-shadow: 5px 5px 10px rgb(0, 0, 0);
+            cursor: pointer;
+        }
+
+        .textLetter {
+            width: 100%;
+            flex-direction: column;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            user-select: none;
+        }
+
+        .textLetter h2 {
+            font-size: 30px;
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .textLetter .contentLetter {
+            font-size: 19px;
+            text-align: center;
+            padding: 0px 30px;
+            margin-top: 10px;
+            font-family: 'Dancing Script', cursive;
+            position: initial;
+
+        } */
+
+
 
         .letters {
             position: absolute;
@@ -375,24 +532,24 @@
             align-items: center;
         }
 
-        /* MÀU NỀN THƯ (KEM) */
+        /* THAY ĐỔI MÀU NỀN THƯ */
         .boxLetter .formLetter {
             position: relative;
             width: 600px;
             height: 350px;
-            background-color: #FFFFF0; 
+            background-color: #FFFFF0; /* Đổi từ #FFEBEB sang màu kem #FFFFF0 */
             border-radius: 20px;
             z-index: 100;
             padding: 20px 15px;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         }
 
-        /* MÀU VIỀN THƯ (HỒNG ĐẤT) */
+        /* THAY ĐỔI MÀU VIỀN THƯ */
         .formLetter .wrapperLetter {
             position: relative;
             width: 100%;
             height: 100%;
-            border: 2px dashed #B76E79; 
+            border: 2px dashed #B76E79; /* Đổi từ #FF6666 sang màu hồng đất #B76E79 */
             border-radius: inherit;
             display: flex;
         }
@@ -407,26 +564,26 @@
             z-index: 10;
         }
 
-        /* MÀU NỀN TIM TRANG TRÍ (KEM NHẠT) */
+        /* THAY ĐỔI MÀU NỀN TIM TRANG TRÍ */
         .formLetter .heartLetter {
             position: absolute;
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background: #FDF5E6; 
+            background: #FDF5E6; /* Đổi từ #FFEBEB sang màu kem nhạt #FDF5E6 */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 10;
         }
 
-        /* MÀU TIM TRANG TRÍ (ĐỎ CỔ ĐIỂN) */
+        /* THAY ĐỔI MÀU TIM TRANG TRÍ */
         .heartLetter .heartLetterItem {
             position: relative;
             width: 10px;
             height: 10px;
             transform: rotate(45deg);
-            background: #C62828; 
+            background: #C62828; /* Đổi từ #FF6666 sang đỏ cổ điển #C62828 */
         }
 
         .heartLetter:first-child {
@@ -466,15 +623,13 @@
             align-items: center;
             user-select: none;
         }
-        
-        /* MÀU TIÊU ĐỀ THƯ (NÂU) */
+
         .textLetter h2 {
             font-size: 30px;
             font-family: 'Dancing Script', cursive;
-            color: #5D4037; 
+            color: #5D4037; /* Thêm màu nâu cho tiêu đề thư */
         }
 
-        /* MÀU NỘI DUNG THƯ (NÂU ĐẬM) */
         .textLetter .contentLetter {
             font-size: 19px;
             text-align: center;
@@ -482,7 +637,7 @@
             margin-top: 10px;
             font-family: 'Dancing Script', cursive;
             position: initial;
-            color: #3E2723; 
+            color: #3E2723; /* Thêm màu nâu đậm cho nội dung */
 
         }
 
@@ -498,12 +653,37 @@
         .show {
             display: block;
         }
-        
-        /* CÁC PHẦN GIF ĐÃ BỊ GỠ BỎ */
-        /* .heartAnimation { ... }
+
+        .heartAnimation {
+            position: absolute;
+            width: 200px;
+            bottom: 0;
+        }
+
+        .heartAnimation img {
+            width: 100%;
+        }
+
         .mewmew1,
-        .mewmew2 { ... } */
-        
+        .mewmew2 {
+            position: absolute;
+            width: 90px;
+        }
+
+        .mewmew1 {
+            bottom: 0;
+            left: 0;
+        }
+
+        .mewmew2 {
+            bottom: 0;
+            right: 0;
+        }
+
+        .mewmew1 img,
+        .mewmew2 img {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -520,11 +700,11 @@
                 <feComposite in="SourceGraphic" />
             </filter>
             <path id="shape" d="M0, 21.054 
-    	    C0, 21.054 24.618, -15.165 60.750, 8.554 
-    	    C93.249, 29.888 57.749, 96.888 0, 117.388
-    	    C-57.749, 96.888  -93.249, 29.888 -60.750, 8.554
-    	    C-24.618, -15.165  -0, 21.054 -0, 21.054z    
-    	" />
+       C0, 21.054 24.618, -15.165 60.750, 8.554 
+       C93.249, 29.888 57.749, 96.888 0, 117.388
+       C-57.749, 96.888  -93.249, 29.888 -60.750, 8.554
+       C-24.618, -15.165  -0, 21.054 -0, 21.054z    
+    " />
             <path id="partialPath" />
 
         </defs>
@@ -578,6 +758,8 @@
             measurePath() {
                 let path = document.createElementNS(SVG_NS, "path");
                 path.setAttributeNS(null, "d", this.d);
+                // no need to append it to the SVG
+                // the lengths of every path in dry
                 this.pathLength = path.getTotalLength();
             }
 
@@ -613,15 +795,20 @@
 
         // create new subPaths
         for (let i = 0; i < n; i++) {
+            // finds the of nth C in d
             let newpos = d.indexOf("C", pos + 1);
             if (i > 0) {
+                // if it's not the first C
                 let sPath = new subPath(d.substring(0, newpos));
                 subpaths.push(sPath);
             }
+            //change the value of the position pos
             pos = newpos;
         }
+        // at the end add d to the subpaths array
         subpaths.push(new subPath(d));
 
+        // 2. get the index of the bezierLengths where the point at t is
         let index;
         for (index = 0; index < subpaths.length; index++) {
             if (subpaths[index].pathLength >= lengthAtT) {
@@ -639,6 +826,7 @@
             } else {
                 T = lengthAtT / subpaths[index].pathLength;
             }
+            //console.log(T)
             return T;
         }
 
@@ -651,21 +839,28 @@
         function getBezierPoints(t, points) {
             let helperPoints = [];
 
+            // helper points 0,1,2
             for (let i = 1; i < 4; i++) {
+                //points.length must be 4 !!!
                 let p = lerp(points[i - 1], points[i], t);
                 helperPoints.push(p);
             }
 
+            // helper points 3,4
             helperPoints.push(lerp(helperPoints[0], helperPoints[1], t));
             helperPoints.push(lerp(helperPoints[1], helperPoints[2], t));
+
+            // helper point 5 is where the first Bézier ends and where the second Bézier begins
             helperPoints.push(lerp(helperPoints[3], helperPoints[4], t));
 
+            // points for the dynamic bézier
             let firstBezier = [
                 points[0],
                 helperPoints[0],
                 helperPoints[3],
                 helperPoints[5]
             ];
+            //console.log(firstBezier)
             return firstBezier;
         }
 
@@ -686,9 +881,11 @@
                 d = `M${points[0][0]},${points[0][1]} C`;
             }
 
+            // points.length == 4
             for (let i = 1; i < 4; i++) {
                 d += ` ${points[i][0]},${points[i][1]} `;
             }
+            //console.log(d)
             partialPath.setAttributeNS(null, "d", d);
         }
     </script>
@@ -699,10 +896,16 @@
                 <div class="envelope"></div>
                 <div class="front"></div>
                 <div class="card">
-                    <div class="text">Chúc mừng</br> Mẹ</br> 20/10!</div> 
-                    <div class="heart"></div>
+                    <div class="text">Chúc mừng</br> Mẹ</br> 20/10!</div> <div class="heart"></div>
                 </div>
+                <div class="hearts">
+                    <div class="one"></div>
+                    <div class="two"></div>
+                    <div class="three"></div>
+                    <div class="four"></div>
+                    <div class="five"></div>
                 </div>
+            </div>
             <div class="shadow"></div>
         </div>
 
@@ -712,52 +915,51 @@
     <div class="container" id="rose-t">
         <svg viewBox="0 0 512 512">
             <path class="leafOne" d="M124.302,328.222c-2.466-2.901-5.036-5.334-7.648-7.212c-1.884-1.354-4.49-1.207-6.201,0.36
-            	c-32.608,29.866-18.892,84.017,24.01,94.752c2.251,0.563,4.612-0.548,5.624-2.636c0.407-0.841,0.781-1.732,1.138-2.648
-        	      C111.438,394.378,103.302,355.204,124.302,328.222z" />
+                                    c-32.608,29.866-18.892,84.017,24.01,94.752c2.251,0.563,4.612-0.548,5.624-2.636c0.407-0.841,0.781-1.732,1.138-2.648
+                                    C111.438,394.378,103.302,355.204,124.302,328.222z" />
             <path class="stickLine"
                 d="M337.625,212.314c2.37-3.44,1.501-8.149-1.939-10.519c-3.44-2.369-8.15-1.501-10.519,1.939
-        	      c-19.493,28.304-43.492,60.076-72.147,92.853l-2.542-30.875c-0.343-4.163-4-7.261-8.158-6.917c-4.163,0.343-7.26,3.995-6.917,8.158
-        	      l3.721,45.196C172.176,385.546,93.558,449.444,4.053,496.37c-3.699,1.94-5.127,6.512-3.187,10.211
-        	      c1.352,2.579,3.983,4.054,6.705,4.054c1.183,0,2.385-0.279,3.505-0.867c63.84-33.47,124.784-76.962,181.511-129.479
-        	      c5.891-2.031,32.15-10.225,68.671-8.819c4.156,0.167,7.689-3.09,7.85-7.266c0.161-4.174-3.092-7.689-7.267-7.849
-        	      c-18.678-0.721-34.824,0.89-47.384,3.036C259.688,314.785,301.126,265.31,337.625,212.314z" />
+                                     c-19.493,28.304-43.492,60.076-72.147,92.853l-2.542-30.875c-0.343-4.163-4-7.261-8.158-6.917c-4.163,0.343-7.26,3.995-6.917,8.158
+                                     l3.721,45.196C172.176,385.546,93.558,449.444,4.053,496.37c-3.699,1.94-5.127,6.512-3.187,10.211
+                                     c1.352,2.579,3.983,4.054,6.705,4.054c1.183,0,2.385-0.279,3.505-0.867c63.84-33.47,124.784-76.962,181.511-129.479
+                                     c5.891-2.031,32.15-10.225,68.671-8.819c4.156,0.167,7.689-3.09,7.85-7.266c0.161-4.174-3.092-7.689-7.267-7.849
+                                     c-18.678-0.721-34.824,0.89-47.384,3.036C259.688,314.785,301.126,265.31,337.625,212.314z" />
             <path class="leafTwo" d="M329.58,413.715c30.055,1.827,57.188-13.413,71.993-37.343c1.738-2.81,1.253-6.495-1.142-8.771
-        	      c-13.04-12.394-37.78-21.675-66.625-23.428s-54.527,4.464-68.972,15.187c-2.653,1.969-3.581,5.568-2.196,8.568
-        	      C274.438,393.475,299.525,411.888,329.58,413.715z" />
+                                   c-13.04-12.394-37.78-21.675-66.625-23.428s-54.527,4.464-68.972,15.187c-2.653,1.969-3.581,5.568-2.196,8.568
+                  C274.438,393.475,299.525,411.888,329.58,413.715z" />
             <path class="leafS1" d="M370.677,231.945c-8.984-2.411-17.479-7.138-24.516-14.205c-5.085-5.106-8.742-10.981-11.143-17.242
-        	      c-6.645,0.902-13.554,0.516-20.475-1.491c-9.578-2.778-17.805-7.959-24.234-14.68c-12.216,1.01-22.611,4.593-28.859,9.642
-        	      c-1.416,1.145-1.839,3.149-0.999,4.772c7.157,13.821,21.478,23.41,38.131,23.745c11.548,0.232,22.109-4.035,30.031-11.178
-        	      c-2.461,10.379-1.13,21.692,4.621,31.709c8.293,14.445,23.583,22.401,39.142,22.039c1.826-0.042,3.382-1.376,3.705-3.168
-        	      C377.509,253.982,375.658,243.144,370.677,231.945z" />
+                                  c-6.645,0.902-13.554,0.516-20.475-1.491c-9.578-2.778-17.805-7.959-24.234-14.68c-12.216,1.01-22.611,4.593-28.859,9.642
+                                  c-1.416,1.145-1.839,3.149-0.999,4.772c7.157,13.821,21.478,23.41,38.131,23.745c11.548,0.232,22.109-4.035,30.031-11.178
+                                  c-2.461,10.379-1.13,21.692,4.621,31.709c8.293,14.445,23.583,22.401,39.142,22.039c1.826-0.042,3.382-1.376,3.705-3.168
+                                  C377.509,253.982,375.658,243.144,370.677,231.945z" />
             <path class="rose1" d="M508.212,99.848c-2.666-4.581-27.324-44.843-71.558-48.206c-4.268-0.223-8.58-0.164-12.816,0.176
-        	      l-1.148,0.092l0.471,1.051c7.005,15.648,9.002,31.447,7.106,48.307l0.877,0.04c11.782,0.538,23.679,3.513,35.362,8.841l0.367,0.168
-        	      l0.355-0.188c10.841-5.728,22.445-6.783,35.477-3.225C506.927,108.058,510.397,103.599,508.212,99.848z M452.476,54.541c-4.96-1.457-10.233-2.474-15.823-2.899c-4.268-0.223-8.58-0.164-12.816,0.176
-        	      l-1.148,0.092l0.471,1.051c7.005,15.648,9.002,31.447,7.106,48.307l0.877,0.04c9.334,0.426,18.74,2.407,28.055,5.851
-        	      C461.04,88.852,458.784,71.19,452.476,54.541z" />
+                                l-1.148,0.092l0.471,1.051c7.005,15.648,9.002,31.447,7.106,48.307l0.877,0.04c11.782,0.538,23.679,3.513,35.362,8.841l0.367,0.168
+                                l0.355-0.188c10.841-5.728,22.445-6.783,35.477-3.225C506.927,108.058,510.397,103.599,508.212,99.848z M452.476,54.541c-4.96-1.457-10.233-2.474-15.823-2.899c-4.268-0.223-8.58-0.164-12.816,0.176
+                                l-1.148,0.092l0.471,1.051c7.005,15.648,9.002,31.447,7.106,48.307l0.877,0.04c9.334,0.426,18.74,2.407,28.055,5.851
+                                C461.04,88.852,458.784,71.19,452.476,54.541z" />
 
             <path class="rose2" d="M418.642,40.96c-24.19-37.169-71.346-39.455-76.643-39.593c-4.34-0.114-6.582,5.071-3.543,8.22
-        	      c9.38,9.721,14.029,20.406,14.212,32.665l0.005,0.402l0.324,0.242c13.637,10.194,23.714,22.558,29.944,36.731
-        	      c4.198,10.201,6.37,19.468,7.545,29.411l0.996-0.402c8.962-3.617,18.525-6.008,28.405-7.105c3.688-0.322,7.481-0.397,11.274-0.223
-        	      l0.762,0.035C434.378,79.498,430.171,59.623,418.642,40.96z " />
+                                 c9.38,9.721,14.029,20.406,14.212,32.665l0.005,0.402l0.324,0.242c13.637,10.194,23.714,22.558,29.944,36.731
+                                 c4.198,10.201,6.37,19.468,7.545,29.411l0.996-0.402c8.962-3.617,18.525-6.008,28.405-7.105c3.688-0.322,7.481-0.397,11.274-0.223
+                                 l0.762,0.035C434.378,79.498,430.171,59.623,418.642,40.96z " />
 
             <path class="rose3" d="M343.8,146.676c13.018-17.726,29.06-30.524,47.682-38.039l0.576-0.232
-        	      c-1.161-9.857-3.49-19.395-7.611-29.408c-20.694-47.084-74.317-58.577-80.363-59.731c-4.853-0.927-8.31,4.471-5.489,8.546
-        	      c21.533,31.149,7.895,59.383-14.633,90.009l0.071,0.029c-16.953,26.497-7.863,61.237,18.513,76.865
-        	      c3.932,2.33,8.219,4.207,12.806,5.537c6.757,1.959,13.752,2.469,20.787,1.514l1.017-0.138l-0.367-0.959
-        	      C330.327,183.817,333.08,162.625,343.8,146.676z" />
+                                 c-1.161-9.857-3.49-19.395-7.611-29.408c-20.694-47.084-74.317-58.577-80.363-59.731c-4.853-0.927-8.31,4.471-5.489,8.546
+                                 c21.533,31.149,7.895,59.383-14.633,90.009l0.071,0.029c-16.953,26.497-7.863,61.237,18.513,76.865
+                                 c3.932,2.33,8.219,4.207,12.806,5.537c6.757,1.959,13.752,2.469,20.787,1.514l1.017-0.138l-0.367-0.959
+                                 C330.327,183.817,333.08,162.625,343.8,146.676z" />
 
             <path class="rose4"
                 d="M510.726,141.7c-3.917-4.747-39.75-46.26-91.009-41.792c-21.664,2.405-52.653,12.308-77.277,45.856
-        	      c-13.392,19.922-16.495,52.272,4.132,72.986c3.371,3.385,7.075,6.243,11.008,8.573c26.325,15.597,61.186,6.961,76.309-20.683
-        	      l0.077,0.062c15.307-34.399,34.961-59.933,71.9-56.082C510.802,151.136,513.867,145.507,510.726,141.7z M370.903,162.627c27.904-38.017,75.307-57.751,121.144-38.743
-        	      c-16.072-12.613-41.381-26.674-72.329-23.977c-21.664,2.405-52.653,12.308-77.277,45.856c-13.392,19.922-16.495,52.272,4.132,72.986
-        	      c3.371,3.385,7.075,6.243,11.008,8.573c4.885,2.894,10.125,4.964,15.515,6.228C354.624,212.802,357.947,181.899,370.903,162.627z" />
+                                 c-13.392,19.922-16.495,52.272,4.132,72.986c3.371,3.385,7.075,6.243,11.008,8.573c26.325,15.597,61.186,6.961,76.309-20.683
+                                 l0.077,0.062c15.307-34.399,34.961-59.933,71.9-56.082C510.802,151.136,513.867,145.507,510.726,141.7z M370.903,162.627c27.904-38.017,75.307-57.751,121.144-38.743
+                                 c-16.072-12.613-41.381-26.674-72.329-23.977c-21.664,2.405-52.653,12.308-77.277,45.856c-13.392,19.922-16.495,52.272,4.132,72.986
+                                 c3.371,3.385,7.075,6.243,11.008,8.573c4.885,2.894,10.125,4.964,15.515,6.228C354.624,212.802,357.947,181.899,370.903,162.627z" />
         </svg>
         <p id="text-click" style=" display: none;   font-family: fantasy;
-        color: #B76E79; 
+        color: #B76E79; /* Đổi màu chữ click sang hồng đất */
         font-size: 50px;
-        top: 80%;">Click vào hoa nhé!</p> 
-    </div>
+        top: 80%;">Click vào hoa nhé!</p> </div>
 
     <div class="wrapperLetterForm" style="display: none;">
         <div class="boxLetter">
@@ -775,8 +977,17 @@
                     <div class="textLetter">
                         <h2></h2>
                         <p class="contentLetter"></p>
+                        <div class="heartAnimation">
+                            <img src="./image/heartAnimation.gif" alt="">
                         </div>
                     </div>
+                    <div class="mewmew1">
+                        <img src="./image/mewmew.gif" alt="">
+                    </div>
+                    <div class="mewmew2">
+                        <img src="./image/mewmew.gif" alt="">
+                    </div>
+                </div>
             </div>
             <div class="before"></div>
         </div>
@@ -827,53 +1038,55 @@
                 let dust = document.createElement('span');
                 let animation = document.createElement('style');
                 animation.innerHTML = '\
-    	          @keyframes blink' + animationId + '{\
-    	              0% {\
-    	                  top: ' + y1 + 'px;\
-    	                  left: ' + x1 + 'px;\
-    	                  width: ' + 2 * sizeRatio + 'px;\
-    	                  height: ' + 2 * sizeRatio + 'px;\
-    	                  opacity: .4\
-    	              }\
-    	              20% {\
-    	                  width: ' + 4 * sizeRatio + 'px;\
-    	                  height: ' + 4 * sizeRatio + 'px;\
-    	                  opacity: .8\
-    	              }\
-    	              35% {\
-    	                  width: ' + 2 * sizeRatio + 'px;\
-    	                  height: ' + 2 * sizeRatio + 'px;\
-    	                  opacity: .5\
-    	              }\
-    	              55% {\
-    	                  width: ' + 3 * sizeRatio + 'px;\
-    	                  height: ' + 3 * sizeRatio + 'px;\
-    	                  opacity: .7\
-    	              }\
-    	              80% {\
-    	                  width: ' + sizeRatio + 'px;\
-    	                  height: ' + sizeRatio + 'px;\
-    	                  opacity: .3\
-    	              }\
-    	              100% {\
-    	                  top: ' + y2 + 'px;\
-    	                  left: ' + x2 + 'px;\
-    	                  width: ' + 0 + 'px;\
-    	                  height: ' + 0 + 'px;\
-    	                  opacity: .1\
-    	              }}';
+      @keyframes blink' + animationId + '{\
+          0% {\
+              top: ' + y1 + 'px;\
+              left: ' + x1 + 'px;\
+              width: ' + 2 * sizeRatio + 'px;\
+              height: ' + 2 * sizeRatio + 'px;\
+              opacity: .4\
+          }\
+          20% {\
+              width: ' + 4 * sizeRatio + 'px;\
+              height: ' + 4 * sizeRatio + 'px;\
+              opacity: .8\
+          }\
+          35% {\
+              width: ' + 2 * sizeRatio + 'px;\
+              height: ' + 2 * sizeRatio + 'px;\
+              opacity: .5\
+          }\
+          55% {\
+              width: ' + 3 * sizeRatio + 'px;\
+              height: ' + 3 * sizeRatio + 'px;\
+              opacity: .7\
+          }\
+          80% {\
+              width: ' + sizeRatio + 'px;\
+              height: ' + sizeRatio + 'px;\
+              opacity: .3\
+          }\
+          100% {\
+              top: ' + y2 + 'px;\
+              left: ' + x2 + 'px;\
+              width: ' + 0 + 'px;\
+              height: ' + 0 + 'px;\
+              opacity: .1\
+          }}';
                 head.appendChild(animation);
                 dust.classList.add('dustDef');
                 dust.setAttribute('style', `animation: blink${animationId++} ${fallingTime}s cubic-bezier(.71, .11, .68, .83) infinite ${animationDelay}s`);
+                // Sửa lỗi: Đảm bảo node 'main' tồn tại hoặc thay thế bằng 'castle'
                 let targetNode = document.getElementById(node) || document.getElementById('castle');
                 if (targetNode) {
                     targetNode.appendChild(dust);
                 }
             }
 
+            // yes, I'm doing it manually to get the effect I want.. can be easily changed to render randomly
             [
-                [130, 132, 150, 152, .15, 2.5, .1, 'castle'], 
-                [65, 63, 300, 299, .5, 2, .2, 'castle'], 
+                [130, 132, 150, 152, .15, 2.5, .1, 'castle'], // Đổi 'sub' thành 'castle'
+                [65, 63, 300, 299, .5, 2, .2, 'castle'], // Đổi 'sub' thành 'castle'
                 [70, 70, 150, 150, .45, 2, .5, 'castle'],
                 [75, 78, 160, 170, .6, 2, 1, 'castle'],
                 [80, 82, 160, 180, .6, 1, .4, 'castle'],
@@ -890,7 +1103,7 @@
                 [125, 125, 180, 190, .25, 1, .725, 'castle'],
                 [130, 130, 135, 135, .45, 3, 1.5, 'castle'],
                 [135, 132, 170, 190, .25, 2.5, .75, 'castle'],
-                [135, 132, 320, 315, .2, 5, .3, 'castle']
+                [135, 132, 320, 315, .2, 5, .3, 'castle'] // Đổi 'sub' thành 'castle'
             ].forEach((o) => CreateMagicDust(...o));
 
         })();
@@ -902,7 +1115,7 @@
         /************************************************/
         let indexText = 0;
         let textLetter = document.querySelector('.textLetter h2');
-        const textLetterH2 = "Gửi mẹ kính yêu!"; /* <--- ĐÃ BỎ TÊN RIÊNG */
+        const textLetterH2 = "Gửi mẹ kính yêu!"; /* <--- ĐÃ THAY ĐỔI */
         let timoutTextLetter;
 
         function textCharLetter() {
@@ -919,8 +1132,8 @@
             }
         }
         function funcTimeoutLetter() {
-            indexText = 0; 
-            textLetter.textContent = ''; 
+            indexText = 0; // Reset indexText
+            textLetter.textContent = ''; // Xóa nội dung hiện tại của textLetter
             clearInterval(timoutTextLetter);
             timoutTextLetter = setInterval(() => {
                 textCharLetter();
@@ -932,7 +1145,7 @@
         /************************************************/
         let indexTextContent = 0;
         let textLetterContent = document.querySelector('.contentLetter');
-        /* <--- LỜI CHÚC PHÙ HỢP CHO MẸ */
+        /* <--- ĐÃ THAY ĐỔI LỜI CHÚC BÊN DƯỚI */
         const textLetterP = "Nhân ngày 20/10, con chúc mẹ luôn mạnh khỏe, vui vẻ và hạnh phúc bên gia đình mình. Cảm ơn mẹ đã luôn là chỗ dựa vững chắc cho con. Con yêu mẹ rất nhiều!";
         let timoutTextLetterContent;
         function textCharLetterContent() {
@@ -947,8 +1160,8 @@
             }
         }
         function funcTimeoutLetterContent() {
-            indexTextContent = 0; 
-            textLetterContent.textContent = ''; 
+            indexTextContent = 0; // Reset indexTextContent
+            textLetterContent.textContent = ''; // Xóa nội dung hiện tại của textLetter
             clearInterval(timoutTextLetterContent);
             timoutTextLetterContent = setInterval(() => {
                 textCharLetterContent();
@@ -990,38 +1203,54 @@
             easing: 'easeInOutCubic',
             duration: 4000,
             begin: function (anim) {
+                //Leaf One
                 leafOne.setAttribute("stroke", "black");
                 leafOne.setAttribute("fill", "none");
+                // Leaf Two
                 leafTwo.setAttribute("stroke", "black");
                 leafTwo.setAttribute("fill", "none");
+                //Stick
                 stickLine.setAttribute("stroke", "black");
                 stickLine.setAttribute("fill", "none");
+                // Leaf S1
                 leafS1.setAttribute("stroke", "black");
                 leafS1.setAttribute("fill", "none");
+                //Rose One
                 rose1.setAttribute("stroke", "black");
                 rose1.setAttribute("fill", "none");
+                //Rose Two
                 rose2.setAttribute("stroke", "black");
                 rose2.setAttribute("fill", "none");
+                //Rose Three
                 rose3.setAttribute("stroke", "black");
                 rose3.setAttribute("fill", "none");
+                //Rose Three
                 rose4.setAttribute("stroke", "black");
                 rose4.setAttribute("fill", "none");
             },
             complete: function (anim) {
+                //Leaf One
                 leafOne.setAttribute("fill", "#9CDD05");
                 leafOne.setAttribute("stroke", "none");
+                //Leaf Two 
                 leafTwo.setAttribute("fill", "#9CDD05");
                 leafTwo.setAttribute("stroke", "none");
+                //Stick
                 stickLine.setAttribute("fill", "#83AA2E");
                 stickLine.setAttribute("stroke", "none");
+                // Leaf S1
                 leafS1.setAttribute("fill", "#9CDD05");
                 leafS1.setAttribute("stroke", "none");
+                // Rose 1
                 rose1.setAttribute("fill", "#F37D79");
                 rose1.setAttribute("stroke", "none");
+                // Rose 2
                 rose2.setAttribute("fill", "#D86666");
                 rose2.setAttribute("stroke", "none");
+                // Rose 3
                 rose3.setAttribute("fill", "#F37D79");
                 rose3.setAttribute("stroke", "none");
+                // Rose 3
                 rose4.setAttribute("fill", "#D86666");
                 rose4.setAttribute("stroke", "none");
             },
