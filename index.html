@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lua Obfuscator — Web (single file)</title>
+<style>
+  body{font-family:Inter,ui-sans-serif,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:18px;background:#f6f8fa;color:#111}
+  h1{margin:0 0 10px;font-size:20px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  textarea{width:100%;height:360px;padding:10px;font-family:monospace;font-size:13px;box-sizing:border-box;resize:vertical}
+  .controls{display:flex;gap:10px;align-items:center;margin:6px 0}
+  button{padding:8px 12px;border:0;background:#0b5cff;color:#fff;border-radius:6px;cursor:pointer}
+  button.secondary{background:#6c6f76}
+  label{display:inline-flex;gap:6px;align-items:center}
+  .footer{margin-top:12px;font-size:13px;color:#444}
+  .row{display:flex;gap:8px}
+  .small{font-size:13px;color:#333}
+  .options{display:flex;gap:10px;align-items:center}
+  .download{background:#00a86b}
+</style>
+</head>
+<body>
+  <h1>Lua Obfuscator — Web (1 file)</h1>
+  <div class="small">Dán mã Lua vào ô trái → nhấn <b>Obfuscate</b> → tải file obf (hoàn toàn chạy trên trình duyệt).</div>
+  <div class="grid" style="margin-top:10px">
+    <div>
+      <h3>Input.lua</h3>
+      <textarea id="input" placeholder="Dán mã Lua của bạn vào đây..."></textarea>
+      <div class="controls">
+        <div class="options">
+          <label><input type="checkbox" id="opt_strings" checked> Encode strings (Base64)</label>
+          <label><input type="checkbox" id="opt_rename" checked> Rename local variables</label>
+          <label><input type="checkbox" id="opt_minify" checked> Minify whitespace</label>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="btnObf">Obfuscate</button>
+        <button id="btnClear" class="secondary">Clear</button>
+        <button id="btnSample" class="secondary">Sample</button>
+      </div>
+    </div>
+
+    <div>
+      <h3>Output_obf.lua</h3>
+      <textarea id="output" placeholder="Kết quả sẽ hiển thị ở đây..." readonly></textarea>
+      <div class="controls">
+        <button id="btnDownload" class="download">Tải .lua</button>
+        <button id="btnCopy" class="secondary">Copy</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+/*
+  Simple browser-side Lua obfuscator.
+  - remove long comments (--[[ ... ]]) and single-line comments (-- ...)
+  - extract strings (long bracket [[...]] and quotes), replace by placeholders
+  - optionally base64-encode string contents and inject runtime __B decoder
+  - optionally rename local variables (basic heuristics)
+  - output single file text
+  Note: This is heuristic-based, not perfect; test with your code.
+*/
+
+// utils
+function randName(len){
+  len = len || 8;
+  var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  var s = "";
+  for(var i=0;i<len;i++) s += chars.charAt(Math.floor(Math.random()*chars.length));
+  return "_" + s;
+}
+function utf8_to_b64(str) {
+  // encode to UTF-8 then base64
+  try {
+    return btoa(unescape(encodeURIComponent(str)));
+  } catch(e){
+    // fallback
+    return btoa(str);
+  }
+}
+
+// remove comments: long comments and line comments
+function removeComments(src){
+  // remove long comments first (handles nested conservatively: non-greedy)
+  src = src.replace(/--\[\[[\s\S]*?\]\]/g, "");
+  // remove single-line comments (but be careful not to break shebangs)
+  src = src.replace(/(^#!.*\n)/, function(m){ return m; });
+  src = src.replace(/--[^\n]*/g, "");
+  return src;
+}
+
+// extract long bracket strings [[...]]
+function extractLongBrackets(src, strings, placeholders){
+  return src.replace(/\[\[([\s\S]*?)\]\]/g, function(m, inner){
+    var ph = "__STR_PLAH_" + placeholders.count++ + "__";
+    strings[ph] = inner;
+    return "'" + ph + "'";
+  });
+}
+
+// extract quoted strings '...' "..." with escape handling
+function extractQuotedStrings(src, strings, placeholders){
+  var out = "";
+  var i = 0;
+  while(i < src.length){
+    var c = src.charAt(i);
+    if(c === '"' || c === "'"){
+      var q = c;
+      var j = i+1;
+      var str = "";
+      while(j < src.length){
+        var ch = src.charAt(j);
+        if(ch === "\\"){
+          str += ch;
+          if(j+1 < src.length){ str += src.charAt(j+1); j += 2; } else j++;
+        } else if(ch === q){
+          j++;
+          break;
+        } else {
+          str += ch; j++;
+        }
+      }
+      var ph = "__STR_PLAH_" + placeholders.count++ + "__";
+      strings[ph] = str;
+      out += "'" + ph + "'";
+      i = j;
+    } else {
+      out += c;
+      i++;
+    }
+  }
+  return out;
+}
+
+// simple minify: collapse whitespace to single spaces
+function minifyWhitespace(s){
+  // preserve newlines are not necessary; we minify to single spaces
+  return s.replace(/\s+/g, " ");
+}
+
+// find local names to rename (heuristic)
+function collectLocalNames(src){
+  var names = {};
+  // match: local function name
+  var re1 = /local\s+function\s+([A-Za-z_][A-Za-z0-9_]*)/g;
+  var m;
+  while((m = re1.exec(src)) !== null){
+    names[m[1]] = true;
+  }
+  // match: local a, b = ...
+  var re2 = /local\s+([A-Za-z0-9_,\s]+?)\s*(=|;|$)/g;
+  while((m = re2.exec(src)) !== null){
+    var list = m[1].split(",");
+    list.forEach(function(item){ var n = item.trim(); if(n) names[n] = true; });
+  }
+  return Object.keys(names);
+}
+
+function replaceWordBoundaries(src, orig, sub){
+  // use regexp with word boundary-like behavior for Lua identifiers
+  return src.replace(new RegExp("(?<![A-Za-z0-9_])" + orig.replace(/([$()*+.\[\]?\\\^{}|])/g,"\\$1") + "(?![A-Za-z0-9_])","g"), sub);
+}
+
+document.getElementById("btnObf").addEventListener("click", function(){
+  var src = document.getElementById("input").value || "";
+  if(!src.trim()){ alert("Dán mã Lua vào ô Input."); return; }
+  var optStrings = document.getElementById("opt_strings").checked;
+  var optRename = document.getElementById("opt_rename").checked;
+  var optMinify = document.getElementById("opt_minify").checked;
+
+  // 1) remove comments
+  var s = removeComments(src);
+
+  // 2) extract long bracket and quoted strings into map
+  var strings = {};
+  var placeholders = {count: 1};
+  s = extractLongBrackets(s, strings, placeholders);
+  s = extractQuotedStrings(s, strings, placeholders);
+
+  // 3) optionally minify whitespace
+  if(optMinify) s = minifyWhitespace(s);
+
+  // 4) collect locals & build rename map
+  var renameMap = {};
+  if(optRename){
+    var locals = collectLocalNames(s);
+    locals.forEach(function(name){
+      // avoid lua keywords/common builtins (small list)
+      var keywords = {"and":1,"break":1,"do":1,"else":1,"elseif":1,"end":1,"false":1,"for":1,"function":1,"goto":1,"if":1,"in":1,"local":1,"nil":1,"not":1,"or":1,"repeat":1,"return":1,"then":1,"true":1,"until":1,"while":1};
+      var builtins = {"print":1,"math":1,"string":1,"table":1,"io":1,"os":1,"pairs":1,"ipairs":1,"type":1,"tostring":1,"tonumber":1};
+      if(!keywords[name] && !builtins[name]){
+        renameMap[name] = randName(8);
+      }
+    });
+    // apply replacements carefully (avoid placeholders containing same patterns)
+    // placeholders are single-quoted tokens like ' __STR_PLAH_1__ '
+    // so safe to replace globally on s
+    Object.keys(renameMap).forEach(function(orig){
+      var sub = renameMap[orig];
+      // use regex for identifier boundaries
+      s = s.replace(new RegExp("(?<![A-Za-z0-9_])" + orig.replace(/([$()*+.\[\]?\\\^{}|])/g,"\\$1") + "(?![A-Za-z0-9_])","g"), sub);
+    });
+  }
+
+  // 5) replace placeholders with __B('BASE64') or original text
+  Object.keys(strings).forEach(function(ph){
+    var text = strings[ph];
+    var b64 = optStrings ? utf8_to_b64(text) : null;
+    var replacement = optStrings ? "__B('" + b64 + "')" : ("'" + text.replace(/'/g,"\\'") + "'");
+    // placeholder appears as 'PH' in s
+    s = s.split("'" + ph + "'").join(replacement);
+  });
+
+  // 6) assemble header if needed (base64 decoder)
+  var header = "";
+  if(optStrings){
+    header = "-- Obfuscated by lua_obf_web (client-side)\n" +
+`local function __B(s)
+  local b='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+  s = s:gsub("%s","")
+  -- pad to multiple of 4
+  local pad = (#s % 4 == 0) and 0 or (4 - (#s % 4))
+  s = s .. string.rep("=", pad)
+  local out = {}
+  local function idx(ch) return b:find(ch,1,true) or 0 end
+  for i=1,#s,4 do
+    local c1 = idx(s:sub(i,i))-1
+    local c2 = idx(s:sub(i+1,i+1))-1
+    local c3 = idx(s:sub(i+2,i+2))-1
+    local c4 = idx(s:sub(i+3,i+3))-1
+    local n = c1*262144 + (c2>0 and c2*4096 or 0) + (c3>0 and c3*64 or 0) + (c4>0 and c4 or 0)
+    local a = math.floor(n/65536) % 256
+    local b2 = math.floor(n/256) % 256
+    local c2b = n % 256
+    table.insert(out, string.char(a))
+    if c3>0 then table.insert(out, string.char(b2)) end
+    if c4>0 then table.insert(out, string.char(c2b)) end
+  end
+  return table.concat(out)
+end
+
+`
+  } else {
+    header = "-- Obfuscated by lua_obf_web (no string encoding)\n"
+  }
+
+  var final = header + "\n" + s;
+  document.getElementById("output").value = final;
+});
+
+// Copy, clear, sample, download
+document.getElementById("btnCopy").addEventListener("click", function(){
+  var out = document.getElementById("output");
+  out.select();
+  document.execCommand("copy");
+  alert("Đã copy vào clipboard.");
+});
+document.getElementById("btnClear").addEventListener("click", function(){
+  document.getElementById("input").value = "";
+  document.getElementById("output").value = "";
+});
+document.getElementById("btnSample").addEventListener("click", function(){
+  var sample = [[
+-- Ví dụ
+local function greet(name)
+  print("Hello, "..name.."!")
+end
+
+local x = "secret string"
+local t = {
+  a = 1,
+  b = "bye"
+}
+
+greet("world")
+]];
+  document.getElementById("input").value = sample;
+});
+document.getElementById("btnDownload").addEventListener("click", function(){
+  var text = document.getElementById("output").value;
+  if(!text) { alert("Chưa có kết quả để tải."); return; }
+  var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = "output_obf.lua";
+  document.body.appendChild(a); a.click();
+  a.remove(); URL.revokeObjectURL(url);
+});
+</script>
+
+<div class="footer">
+  <strong>Ghi chú:</strong> công cụ này là bản web-obfuscator cơ bản — nếu bạn cần:
+  <ul>
+    <li>Thêm tùy chọn (ví dụ: whitelist globals, chỉ đổi tên biến local trong 1 scope),</li>
+    <li>Hỗ trợ riêng cho Roblox / Luau (danh sách builtins khác),</li>
+    <li>Hoặc biến thành 1 trang web hostable với upload/download server-side,</li>
+  </ul>
+  thì nói mình biết — mình sẽ mở rộng ngay.
+</div>
+</body>
+</html>
