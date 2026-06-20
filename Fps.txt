@@ -1,0 +1,154 @@
+-- TÊN SCRIPT: FPS BOOSTER V4 (OPTIMIZED FOR GROW A GARDEN)
+
+local workspace = game:GetService("Workspace")
+local lighting = game:GetService("Lighting")
+local terrain = workspace:FindFirstChildOfClass("Terrain")
+
+print("Đang khởi động FPS Booster V4 (Grow a Garden Edition)...")
+
+-- TỪ KHÓA NHẬN DIỆN CÂY CỐI & MẢNH ĐẤT (Cập nhật cho ảnh của bạn)
+local treeKeywords = {"tree", "plant", "leaf", "leaves", "bush", "wood", "flower", "crop", "seed", "sprout", "vine", "berry"}
+local plotKeywords = {"baseplate", "ground", "floor", "plot", "dirt", "soil", "field"}
+
+-- MÀU CỤ THỂ CỦA MẢNH ĐẤT NÂU (để bảo vệ nó tốt hơn)
+local plotColor = Color3.fromRGB(105, 77, 46) -- Giả định màu nâu của mảnh đất plot trong ảnh
+
+-- 1. HÀM KIỂM TRA MẢNH ĐẤT (Bảo vệ đất đứng)
+local function isPlot(obj)
+    if obj:IsA("Terrain") then return true end
+    if not obj:IsA("BasePart") then return false end
+    
+    -- Kiểm tra tên
+    local current = obj
+    while current and current ~= workspace do
+        local name = string.lower(current.Name)
+        for _, k in ipairs(plotKeywords) do
+            if string.find(name, k) then return true end
+        end
+        current = current.Parent
+    end
+
+    -- Kiểm tra kích thước khổng lồ (bảo vệ baseplate)
+    if (obj.Size.X > 60 or obj.Size.Z > 60) then
+        return true
+    end
+
+    -- Kiểm tra màu cụ thể cho mảnh đất plot (Backup logic)
+    if obj.Color == plotColor and obj.Parent:IsA("Folder") and obj.Parent.Name == "Plots" then -- Giả định tổ chức "Plots" folder
+        return true
+    end
+
+    return false
+end
+
+-- 2. HÀM KIỂM TRA CÂY CỐI
+local function isPartOfTree(obj)
+    local current = obj
+    while current and current ~= workspace do
+        local name = string.lower(current.Name)
+        for _, k in ipairs(treeKeywords) do
+            if string.find(name, k) then return true end
+        end
+        current = current.Parent
+    end
+    return false
+end
+
+-- 3. HÀM XỬ LÝ VÀ HẠ ĐỒ HỌA
+local function downgradeObject(obj)
+    -- Bỏ qua Nhân vật của người chơi
+    if obj:FindFirstAncestorWhichIsA("Model") and obj:FindFirstAncestorWhichIsA("Model"):FindFirstChild("Humanoid") then return end
+
+    -- NẾU LÀ ĐẤT (PLOT) -> Chỉ làm nhựa nhẵn, tuyệt đối không tàng hình
+    if isPlot(obj) then
+        if obj:IsA("BasePart") then
+            obj.Material = Enum.Material.SmoothPlastic
+            obj.Reflectance = 0
+            obj.CastShadow = false
+        end
+        return 
+    end
+
+    -- NẾU LÀ CÂY (Tàng hình mô hình 3D, giữ logic) -> ĐIỂM MỚI V4
+    if isPartOfTree(obj) then
+        if obj:IsA("BasePart") then
+            -- Chỉ tàng hình các khối hình học cơ bản (tán lá hình cầu, thân cây hình trụ/khối)
+            -- Bỏ qua đế của mảnh đất nếu có mô hình cây được đặt trên đó
+            if obj.Shape == Enum.PartType.Sphere or obj.Shape == Enum.PartType.Cylinder then
+                obj.Transparency = 1
+                obj.CanCollide = false
+                obj.CastShadow = false
+            else
+                -- Đế mảnh đất trong mô hình cây, chỉ làm nhựa nhẵn
+                obj.Material = Enum.Material.SmoothPlastic
+                obj.Reflectance = 0
+                obj.CastShadow = false
+            end
+        end
+        
+        -- Không đụng vào Decal/Texture (giữ lại quả mọng) để an toàn thu hoạch
+        if obj:IsA("Decal") or obj:IsA("Texture") then
+            -- obj.Transparency = 1 -- TUYỆT ĐỐI KHÔNG LÀM TÀNG HÌNH DECAL CỦA QUẢ
+        end
+        
+        -- Không đụng vào MeshPart của cây để an toàn thu hoạch, trừ phi nó quá nặng
+        if obj:IsA("MeshPart") then
+            -- obj.Transparency = 1 -- TUYỆT ĐỐI KHÔNG LÀM TÀNG HÌNH MESH CỦA CÂY ĐỂ AN TOÀN THU HOẠCH
+        end
+        
+        return
+    end
+
+    -- CÁC VẬT THỂ KHÁC (Hàng rào, biển báo, v.v.) -> Ép đồ họa thấp
+    if obj:IsA("BasePart") then
+        obj.Material = Enum.Material.SmoothPlastic
+        obj.Reflectance = 0
+        obj.CastShadow = false
+    elseif obj:IsA("Decal") or obj:IsA("Texture") then
+        if obj.Name ~= "face" then 
+            -- obj.Transparency = 1 -- ĐỂ LẠI DECAL CHO AN TOÀN THU HOẠCH
+        end
+    elseif obj:IsA("ParticleEmitter") or obj:IsA("Trail") or obj:IsA("Beam") or obj:IsA("Fire") or obj:IsA("Smoke") or obj:IsA("Sparkles") then
+        obj.Enabled = false
+    elseif obj:IsA("Explosion") then
+        obj.Visible = false
+    end
+end
+
+-- TIẾN HÀNH TỐI ƯU HÓA ÁNH SÁNG & ĐỊA HÌNH
+lighting.GlobalShadows = false
+lighting.FogEnd = 9e9
+lighting.ShadowSoftness = 0
+lighting.EnvironmentDiffuseScale = 0
+lighting.EnvironmentSpecularScale = 0
+lighting.Brightness = 2
+
+for _, obj in pairs(lighting:GetChildren()) do
+    if obj:IsA("PostEffect") or obj:IsA("BlurEffect") or obj:IsA("SunRaysEffect") or obj:IsA("ColorCorrectionEffect") or obj:IsA("BloomEffect") or obj:IsA("DepthOfFieldEffect") then
+        obj.Enabled = false
+    end
+end
+
+if terrain then
+    terrain.WaterWaveSize = 0
+    terrain.WaterWaveSpeed = 0
+    terrain.WaterReflectance = 0
+    terrain.WaterTransparency = 0
+    pcall(function() terrain.Decoration = false end)
+end
+
+-- QUÉT TOÀN BỘ MAP HIỆN TẠI
+for _, obj in pairs(workspace:GetDescendants()) do
+    downgradeObject(obj)
+end
+
+-- TỰ ĐỘNG XỬ LÝ KHI GAME SPAWN RA CÂY HOẶC VẬT THỂ MỚI
+workspace.DescendantAdded:Connect(function(obj)
+    task.defer(function()
+        if obj and obj.Parent then
+            downgradeObject(obj)
+        end
+    end)
+end)
+
+print("Hoàn tất V4! Mảnh đất được giữ nguyên. Tán lá/thân cây đã vô hình hóa. Quả mọng vẫn hiển thị để thu hoạch.")
