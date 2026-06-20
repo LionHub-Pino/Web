@@ -1,0 +1,152 @@
+getgenv().Key = "c01ad722569a8fba84509dc0" 
+
+getgenv().Config = {
+    ["Max Plant Fruit"] = 200,
+    ["Buy Expand Plot"] = true,  
+    ["Buy Slot Pet"] = true,
+    ["Pet"] = {
+        ["Auto Buy"] = {
+            ["Enable"] = true,
+            ["Pet"] = {
+                ["IceSerpent"]      = true,   -- $20M (VIP)
+                ["Raccoon"]         = true,   -- $5M (VIP)
+                ["Unicorn"]         = true,   -- $4M (VIP)
+                ["GoldenDragonfly"] = true,   -- $3M (VIP)
+                ["BlackDragon"]     = true,   -- BẬT: $1M, chỉ số buff rất ngon
+                ["Monkey"]          = true,   -- BẬT: $1M, hỗ trợ farm tốt
+                ["Bee"]             = true,   -- BẬT: $1M, cực kỳ đa dụng
+                ["Robin"]           = true,   -- BẬT: $75K, pet "chống cháy" giá rẻ để lấp ô trống
+                ["Deer"]            = false,  -- TẮT: Hơi yếu
+                ["Owl"]             = false,  -- TẮT
+                ["Bunny"]           = false,  -- TẮT
+                ["Frog"]            = false,  -- TẮT
+            },
+        },
+    },
+    ["Mail"] = {
+        ["Enable"]      = true, 
+        ["Username"]    = "katovicamo0",
+        ["Note"]        = "tai ngoo",
+        ["IntervalSec"] = 30,
+        ["Pet"] = {
+            ["IceSerpent"]      = false,
+            ["Raccoon"]         = false,
+            ["Unicorn"]         = false,
+            ["GoldenDragonfly"] = false,
+            ["BlackDragon"]     = false,
+            ["Monkey"]          = false,
+            ["Bee"]             = false,
+            ["Robin"]           = false,
+            ["Deer"]            = false,
+            ["Owl"]             = false,
+            ["Bunny"]           = false,
+            ["Frog"]            = false,
+        },
+        ["Seed"] = {
+            ["Rainbow"] = true, -- Khóa chặt hạt VIP
+            ["Gold"]    = true, -- Khóa chặt hạt VIP
+        },
+    },
+    ["Plant Seed"] = {
+        ["Enable"] = true,
+        ["Seed"] = {
+            ["Bamboo"]          = false,   
+            ["Blueberry"]       = false,   
+            ["Tulip"]           = false,   
+            ["Apple"]           = false,   
+            ["Tomato"]          = false,   
+            ["Banana"]          = false,   
+            ["Sunflower"]       = false,   
+            ["Corn"]            = false,   
+            ["Mushroom"]        = false,   
+            ["Cherry"]          = false,   
+            ["Mango"]           = false,   
+            ["Grape"]           = false,   
+            -- GIỮ LẠI CÁC HẠT LỢI NHUẬN CAO
+            ["Coconut"]         = true,   
+            ["Cactus"]          = true,   
+            ["Baby Cactus"]     = true,   
+            ["Pomegranate"]     = true,   
+            ["Pineapple"]       = true,   
+            ["Dragon Fruit"]    = true,   
+            ["Poison Apple"]    = true,   
+            ["Moon Bloom"]      = true,   
+            ["Poison Ivy"]      = true,   
+            ["Ghost Pepper"]    = true,   
+            ["Venus Fly Trap"]  = true,   
+            ["Dragon's Breath"] = true,   
+        },
+    },
+    ["Buy Seed"] = {
+        ["Enable"] = true,
+        ["Seed"] = {
+            ["Bamboo"]          = false,   
+            ["Blueberry"]       = false,   
+            ["Tulip"]           = false,   
+            ["Apple"]           = false,   
+            ["Tomato"]          = false,   
+            ["Banana"]          = false,   
+            ["Sunflower"]       = false,   
+            ["Corn"]            = false,   
+            ["Mushroom"]        = false,   
+            ["Cherry"]          = false,   
+            ["Mango"]           = false,   
+            ["Grape"]           = false,   
+            -- MUA CÁC HẠT LỢI NHUẬN CAO
+            ["Coconut"]         = true,   
+            ["Cactus"]          = true,   
+            ["Baby Cactus"]     = true,   
+            ["Pomegranate"]     = true,   
+            ["Pineapple"]       = true,   
+            ["Dragon Fruit"]    = true,   
+            ["Poison Apple"]    = true,   
+            ["Moon Bloom"]      = true,   
+            ["Poison Ivy"]      = true,   
+            ["Ghost Pepper"]    = true,   
+            ["Venus Fly Trap"]  = true,   
+            ["Dragon's Breath"] = true,   
+        },
+    },
+    
+    ["Buy Gear"] = {
+        ["Enable"] = true, 
+        ["Gear"] = {
+            ["Common Watering Can"]  = true,   
+            ["Super Watering Can"]   = true,   
+            ["Common Sprinkler"]     = true,   
+            ["Uncommon Sprinkler"]   = true,   
+            ["Rare Sprinkler"]       = true,   
+            ["Legendary Sprinkler"]  = true,   
+            ["Super Sprinkler"]      = true,   
+        },
+    },
+    ["Auto Water"] = {
+        ["Enable"] = true,
+    },
+    ["Auto Sprinkler"] = {
+        ["Enable"] = true,
+    },
+
+    ["Webhook"] = {
+        ["Enable"]            = false,
+        ["URL"]               = "",      
+        ["Username"]          = "OneClick GAG2",
+        ["OnRarePet"]         = true,    
+        ["OnRareSeed"]        = true,    
+        ["PetMinPrice"]       = 0,       
+        ["PetRarity"] = {                
+            ["Common"]    = false,
+            ["Uncommon"]  = false,
+            ["Rare"]      = false,
+            ["Legendary"] = true,
+            ["Mythic"]    = true,
+            ["Super"]     = true,
+            ["Divine"]    = true,
+            ["Prismatic"] = true,
+        },
+        ["ProfileReport"]     = false,   
+        ["ProfileIntervalMin"]= 30,      
+    },
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/refs/heads/main/OneclickGAG2.lua"))()
